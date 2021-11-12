@@ -2,9 +2,8 @@
 
 Let's keep it foobar i.s.o. FUBAR!
 
-Launch it already  - 
+Launch it already  - <TO DO>
 
-Postman collection available @ 
+Postman collection available @ <TO DO>
 
-Time worked: 180m
-+ 12/11: 15u15 - 
+Time worked: 255m
