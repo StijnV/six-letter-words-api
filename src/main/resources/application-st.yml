@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://six-letter-words.cluster-dddcccbbbaaa.rds.amazonaws.com:3306/sixletterwords?enabledTLSProtocols=TLSv1.2
+    username: uaadminuser
+    password: ${DB_PASSWORD}
+  jpa:
+    database: mysql
+
+okta:
+  oauth2:
+    issuer: https://mycompany.oktapreview.com/oauth2/bvtb1ndpsmqAKj1D51i8
+    audience: https://mycompany.oktapreview.com
+    client-id: mycompany.mt-slwa

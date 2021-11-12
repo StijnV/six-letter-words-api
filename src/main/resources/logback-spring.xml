@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <springProfile name="st | ua | pr">
+        <springProperty name="serviceName" source="spring.application.name"/>
+        <timestamp key="timestamp" datePattern="yyyyMMdd-HHmmss"/>
+
+        <appender name="CLOUDWATCH_FAILURES" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%10thread] %cyan(%-50logger{36}) - CLOUDWATCH_FAILURE: %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <appender name="STRUCTURED_LOGS" class="com.mycompany.CloudWatchAppender">
+            <region>eu-west-1</region>
+            <logGroup>/eks/fargate/pods/${serviceName}</logGroup>
+            <logStream>${serviceName}-${timestamp}-STRUCTURED-LOGS</logStream>
+            <encoder>
+                <pattern>%msg%n</pattern>
+            </encoder>
+            <appender-ref ref="CLOUDWATCH_FAILURES"/>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="LOGMESSAGE"/>
+        </root>
+    </springProfile>
+
+</configuration>

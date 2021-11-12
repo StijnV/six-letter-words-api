@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: six-letter-words-api
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQLDialect
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+
+# https://github.com/spring-cloud/spring-cloud-aws/issues/626
+logging.level.com.amazonaws.util.EC2MetadataUtils: error

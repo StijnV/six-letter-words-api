@@ -1,0 +1,8 @@
+k8s:
+  logLevel: 'info'
+ingress:
+  hostname: "six-letter-words-api.myteam.somecloud.com"
+environment:
+  SPRING_PROFILES_ACTIVE: 'pr'
+envSecrets:
+  DB_PASSWORD: 'dbPassword'

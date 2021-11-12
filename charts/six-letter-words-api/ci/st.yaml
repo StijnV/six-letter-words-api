@@ -1,0 +1,9 @@
+k8s:
+  logLevel: 'debug'
+  replicas: '1'
+ingress:
+  hostname: "six-letter-words-api.myteam-systemtesting.somecloud.com"
+environment:
+  SPRING_PROFILES_ACTIVE: 'pr'
+envSecrets:
+  DB_PASSWORD: 'dbPassword'

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app: {{ .Chart.Name }}
+    fargate: "true"
+spec:
+  replicas: {{ .Values.k8s.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Chart.Name }}
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        fargate: "true"
+    spec:
+      serviceAccountName: iam-sa
+      containers:
+        - name: {{ .Chart.Name }}
+          image: artifactory.mycompany.com:9002/myteam/{{ .Chart.Name }}:{{ .Values.appVersion }}
+          resources:
+            limits:
+              memory: "1536Mi"
+              cpu: "1500m"
+            requests:
+              memory: "512Mi"
+              cpu: "300m"
+          env:
+            {{- range $key, $val := .Values.environment }}
+              - name: {{ $key }}
+                value: {{ $val }}
+            {{- end }}
+            {{- range $key, $val := .Values.envSecrets }}
+              - name: {{ $key }}
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ $.Chart.Name }}-secret
+                    key: {{ $val }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            timeoutSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5

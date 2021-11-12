@@ -1,0 +1,5 @@
+namespace: default
+
+k8s:
+  replicas: '2'
+  logLevel: 'info'
