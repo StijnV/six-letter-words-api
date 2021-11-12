@@ -1,0 +1,18 @@
+qualityConfig:
+  application:
+    name: six-letter-words-api
+
+  phases:
+    build:
+      - junit:
+          metricSource: junit
+          metricFiles:
+            - build/test-results/test/*.xml
+          reportFiles:
+            - build/reports/tests/test/**/*
+          reportIndex: build/reports/tests/test/index.html
+    scan:
+      - sonar:
+          metricSource: sonar
+          sonarHost: https://myteam.sonar.somecloud.com/
+          sonarProject: six-letter-words-api
